@@ -1,0 +1,54 @@
+{
+  "name": "templated",
+  "description": "Multi template engine manager for Node.js.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Javier Gallego Martín",
+    "email": "bifuer@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Chelo Quilón Gomez",
+      "email": "cheloq@gmail.com"
+    }
+  ],
+  "homepage": "https://github.com/bifuer/templated",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bifuer/templated"
+  },
+  "bugs": {
+    "url": "https://github.com/bifuer/templated/issues",
+    "email" : "cheloq@gmail.com"
+  },
+  "keywords": [
+    "template",
+    "templates",
+    "render",
+    "templating",
+    "html",
+    "layout",
+    "node",
+    "js",
+    "javascript"
+  ],
+  "dependencies": {
+  	"crier": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "unit.js": "*"
+  },
+  "main": "./index.js",
+  "scripts":{
+    "test": "mocha test/"
+  },
+  "preferGlobal": false,
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ],
+  "readmeFilename": "README.md",
+  "license": "MIT"
+}
