@@ -11,6 +11,7 @@ module.exports = render;
 render.load = load;
 render.addEngine = addEngine;
 render.removeEngine = removeEngine;
+render.getEngines = getEngines;
 
 function render(path,locals,reload,callback){
   load(path,reload,function(error,template){
@@ -26,7 +27,9 @@ function load(path,reload,callback){
   var ext = path.replace(/^.*\./,'');
   var engine = engines[ext] || false;
   if(cache[path] && !reload){
-    callback(undefined,cache[path]);
+    if(callback){
+      callback(undefined,cache[path]);
+    }
   } else {
     if(engine){
       fs.readFile(path,{encoding:'utf8'},function(error,source){
@@ -36,16 +39,22 @@ function load(path,reload,callback){
           }
           cache[path]=engine(source,path);
           crier.info('load',{path:path,error:error});
-          callback(cache[path]);
+          if(callback){
+            callback(undefined,cache[path]);
+          }
         } catch (error){
           crier.error('error',{path:path,error:error});
-          callback(error);
+          if(callback){
+            callback(error);
+          }
         }
       });
     } else {
       var error = new Error("Unknow engine");
       crier.alert('error',{path:path,error:error});
-      callback(error);
+      if(callback){
+        callback(error);
+      }
     }
   }
 }
@@ -56,4 +65,8 @@ function addEngine(ext,compiler){
 
 function removeEngine(ext){
   if(engines[ext]){delete engines[ext];}
+}
+
+function getEngines(){
+  return Object.keys(engines);
 }
