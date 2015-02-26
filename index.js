@@ -3,6 +3,7 @@
 
 var fs = require('fs');
 var crier = require('crier').addGroup('templated');
+var i18n = require('textualization');
 
 var cache = {};
 var engines = {};
@@ -12,6 +13,8 @@ render.load = load;
 render.addEngine = addEngine;
 render.removeEngine = removeEngine;
 render.getEngines = getEngines;
+
+i18n.load('templated',__dirname+'/languages/',function(){});
 
 function render(path,locals,reload,callback){
   load(path,reload,function(error,template){
