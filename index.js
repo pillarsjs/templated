@@ -38,12 +38,12 @@ function load(path,reload,callback){
             throw error;
           }
           cache[path]=engine(source,path);
-          crier.info('load',{path:path,error:error});
+          crier.info('loaded',{path:path});
           if(callback){
             callback(undefined,cache[path]);
           }
         } catch (error){
-          crier.error('error',{path:path,error:error});
+          crier.error('compileError',{path:path,error:error});
           if(callback){
             callback(error);
           }
@@ -51,7 +51,7 @@ function load(path,reload,callback){
       });
     } else {
       var error = new Error("Unknow engine");
-      crier.alert('error',{path:path,error:error});
+      crier.alert('unknowEngine',{path:path,error:error});
       if(callback){
         callback(error);
       }
