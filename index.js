@@ -14,7 +14,7 @@ render.addEngine = addEngine;
 render.removeEngine = removeEngine;
 render.getEngines = getEngines;
 
-i18n.load('templated',__dirname+'/languages/',function(){});
+i18n.load('templated',__dirname+'/languages/');
 
 function render(path,locals,reload,callback){
   load(path,reload,function(error,template){
