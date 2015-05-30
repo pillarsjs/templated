@@ -17,13 +17,17 @@ render.getEngines = getEngines;
 i18n.load('templated',__dirname+'/languages/');
 
 function render(path,locals,reload,callback){
-  load(path,reload,function(error,template){
-    if(!error){
-      callback(undefined,template(locals));
-    } else {
-      callback(error);
-    }
-  });
+  if(typeof path === 'function'){
+    callback(undefined,path(locals));
+  } else {
+    load(path,reload,function(error,template){
+      if(!error){
+        callback(undefined,template(locals));
+      } else {
+        callback(error);
+      }
+    });
+  }
 }
 
 function load(path,reload,callback){
