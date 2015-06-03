@@ -1,6 +1,12 @@
 /* jslint node: true */
 "use strict";
 
+global.modulesCache = global.modulesCache || {};
+if(global.modulesCache['templated']){
+  module.exports = global.modulesCache['templated'];
+  return;
+}
+
 var fs = require('fs');
 var crier = require('crier').addGroup('templated');
 var i18n = require('textualization');
@@ -8,7 +14,7 @@ var i18n = require('textualization');
 var cache = {};
 var engines = {};
 
-module.exports = render;
+module.exports = global.modulesCache['templated'] = render;
 render.load = load;
 render.addEngine = addEngine;
 render.removeEngine = removeEngine;
