@@ -83,7 +83,7 @@ var templateCache = {
   get : function(id,fresh,callback){
     var item = templateCache.items[id];
     if(typeof item !== 'undefined'){
-      if(item.timeStamp<Date.now()-30*1000 || !fresh){
+      if(Date.now()<=item.timeStamp+5000 || !fresh){
         callback(null,item);
       } else {
         templateCache.file(id,callback,item);
