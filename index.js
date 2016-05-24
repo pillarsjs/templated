@@ -151,7 +151,8 @@ render.loadDefaultEngines = function(){
     return '<pre class="highlight"><code>'+result+'</code></pre>';
   }
   templated.addEngine('md',function compiler(source,path){
-    return marked(source);
+    var html = marked(source);
+    return function(locals){return html;};
   });
 
   var jade = require('jade');

@@ -1,7 +1,7 @@
 {
   "name": "templated",
   "description": "Multi template engine manager for Node.js.",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "author": {
     "name": "Javier Gallego Martín",
     "email": "bifuer@gmail.com"
