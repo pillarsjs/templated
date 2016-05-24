@@ -1,7 +1,7 @@
 {
   "name": "templated",
   "description": "Multi template engine manager for Node.js.",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": {
     "name": "Javier Gallego Martín",
     "email": "bifuer@gmail.com"
@@ -34,7 +34,14 @@
   ],
   "dependencies": {
     "crier": "*",
-    "textualization": "*"
+    "textualization": "*",
+    "marked": "*",
+    "highlight.js": "*",
+    "jade": "*",
+    "handlebars": "*",
+    "hogan.js": "*",
+    "nunjucks": "*",
+    "swig": "*"
   },
   "devDependencies": {
     "mocha": "*",

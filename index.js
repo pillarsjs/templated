@@ -27,7 +27,11 @@ function render(path,locals,reload,callback){
   } else {
     load(path,reload,function(error,template){
       if(!error){
-        callback(undefined,template(locals));
+        if(template.async){
+          template(locals,callback);
+        } else {
+          callback(undefined,template(locals));
+        }
       } else {
         callback(error);
       }
@@ -120,4 +124,106 @@ var templateCache = {
       }
     });
   }
+};
+
+// Add default template engines support to Templated
+render.loadDefaultEngines = function(){
+  var templated = render;
+
+  var marked = require('marked');
+  marked.setOptions({
+    highlight: function (code,lang) {
+      return hljsFix(code,lang);
+    }
+  });
+  var hljs = require('highlight.js');
+  function hljsFix(str,lang){
+    var result;
+    if(lang){
+      result = hljs.highlight(lang,str,true).value;
+    } else {
+      result = hljs.highlightAuto(str).value;
+    }
+    result = result.replace(/^((<[^>]+>|\s{4}|\t)+)/gm, function(match, r) {
+      return r.replace(/\s{4}|\t/g, '  ');
+    });
+    result = result.replace(/\n/g, '<br>');
+    return '<pre class="highlight"><code>'+result+'</code></pre>';
+  }
+  templated.addEngine('md',function compiler(source,path){
+    return marked(source);
+  });
+
+  var jade = require('jade');
+  jade.filters.highlight = function(str,opts){
+    return hljsFix(str,opts.lang);
+  };
+  jade.filters.marked = function(str,opts){
+    return marked(str,opts);
+  };
+  jade.filters.codesyntax = function(str,opts){
+    str = str.replace(/^((<[^>]+>|\s{4}|\t)+)/gm, function(match, r) {
+      return r.replace(/\s{4}|\t/g, '  ');
+    });
+    return '<pre class="codesyntax"><code>'+str+'</code></pre>';
+  };
+
+  templated.addEngine('jade',function compiler(source,path){
+    return jade.compile(source,{filename:path,pretty:false,debug:false,compileDebug:true});
+  });
+
+  var handlebars = require("handlebars");
+  templated.addEngine('hbs',function compiler(source,path){
+    return handlebars.compile(source);
+  });
+
+  var hogan = require("hogan.js");
+  templated.addEngine('hgn',function compiler(source,path){
+    return hogan.compile(source);
+  });
+
+  var nunjucks = require("nunjucks");
+  templated.addEngine('njk',function compiler(source,path){
+    return nunjucks.compile(source);
+  });
+
+  var swig = require("swig");
+  templated.addEngine('swg',function compiler(source,path){
+    return swig.compile(source);
+  });
+
+  /*
+  // Simple JavaScript Templating
+  // John Resig - http://ejohn.org/ - MIT Licensed
+  // From: http://ejohn.org/blog/javascript-micro-templating/
+  var jmt = (function(){
+    var cache = {};
+    return function tmpl(str, data){
+      // Figure out if we're getting a template, or if we need to
+      // load the template - and be sure to cache the result.
+      var fn = new Function("obj",
+          "var p=[],print=function(){p.push.apply(p,arguments);};" +
+         
+          // Introduce the data as local variables using with(){}
+          "with(obj){p.push('" +
+         
+          // Convert the template into pure JavaScript
+          str
+            .replace(/[\r\t\n]/g, " ")
+            .split("<%").join("\t")
+            .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+            .replace(/\t=(.*?)%>/g, "',$1,'")
+            .split("\t").join("');")
+            .split("%>").join("p.push('")
+            .split("\r").join("\\'")
+        + "');}return p.join('');");
+     
+      // Provide some basic currying to the user
+      return data ? fn( data ) : fn;
+    };
+  })();
+  templated.addEngine('jmt',function compiler(source,path){
+    return jmt.compile(source);
+  });
+  */
 };
