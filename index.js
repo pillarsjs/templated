@@ -45,7 +45,7 @@ function load(path,reload,callback){
       if(callback){
         callback(error);
       }
-    } if(!template.engine){
+    } else if(!template.engine){
       var error = new Error("Unknow engine");
       crier.alert('unknowEngine',{path:path,error:error});
       if(callback){
