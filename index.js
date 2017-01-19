@@ -155,14 +155,14 @@ render.loadDefaultEngines = function(){
     return function(locals){return html;};
   });
 
-  var jade = require('jade');
-  jade.filters.highlight = function(str,opts){
+  var pug = require('pug');
+  pug.filters.highlight = function(str,opts){
     return hljsFix(str,opts.lang);
   };
-  jade.filters.marked = function(str,opts){
+  pug.filters.marked = function(str,opts){
     return marked(str,opts);
   };
-  jade.filters.codesyntax = function(str,opts){
+  pug.filters.codesyntax = function(str,opts){
     str = str.replace(/^((<[^>]+>|\s{4}|\t)+)/gm, function(match, r) {
       return r.replace(/\s{4}|\t/g, '  ');
     });
@@ -170,7 +170,15 @@ render.loadDefaultEngines = function(){
   };
 
   templated.addEngine('jade',function compiler(source,path){
-    return jade.compile(source,{filename:path,pretty:false,debug:false,compileDebug:true});
+    return pug.compile(source,{filename:path,pretty:false,debug:false,compileDebug:true});
+  });
+
+  templated.addEngine('pug',function compiler(source,path){
+    return pug.compile(source,{filename:path,pretty:false,debug:false,compileDebug:true});
+  });
+
+  templated.addEngine('jsml',function compiler(source,path){
+    return pug.compile(source,{filename:path,pretty:false,debug:false,compileDebug:true});
   });
 
   var handlebars = require("handlebars");
@@ -186,11 +194,6 @@ render.loadDefaultEngines = function(){
   var nunjucks = require("nunjucks");
   templated.addEngine('njk',function compiler(source,path){
     return nunjucks.compile(source);
-  });
-
-  var swig = require("swig");
-  templated.addEngine('swg',function compiler(source,path){
-    return swig.compile(source);
   });
 
   /*

@@ -1,7 +1,7 @@
 {
   "name": "templated",
   "description": "Multi template engine manager for Node.js.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": {
     "name": "Javier Gallego Martín",
     "email": "bifuer@gmail.com"
@@ -37,11 +37,10 @@
     "textualization": "*",
     "marked": "*",
     "highlight.js": "*",
-    "jade": "*",
+    "pug": "*",
     "handlebars": "*",
     "hogan.js": "*",
-    "nunjucks": "*",
-    "swig": "*"
+    "nunjucks": "*"
   },
   "devDependencies": {
     "mocha": "*",
