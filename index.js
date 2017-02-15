@@ -114,7 +114,7 @@ var templateCache = {
               item.engine = engines[item.ext] || false;
               delete item.data;
               delete item.compiled;
-              item.data = data;
+              item.data = data.toString();
               callback(null,item);
             }
           });
