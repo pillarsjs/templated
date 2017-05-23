@@ -70,8 +70,7 @@ function load(path,reload,callback){
   });
 }
 
-function addEngine(ext,compiler,async){
-  if(async){compiler.async=true;}
+function addEngine(ext,compiler){
   engines[ext]=compiler;
 }
 
@@ -199,7 +198,7 @@ render.loadDefaultEngines = function(){
 
   var less = require('less');
   templated.addEngine('less',function(source,path){
-    return function(locals,callback){
+    var result = function(locals,callback){
       less.render(source,{
         //paths: ['.', './lib'],  // Specify search paths for @import directives
         filename: path,
@@ -208,7 +207,9 @@ render.loadDefaultEngines = function(){
         callback(undefined,output.css);
       });
     };
-  },true);
+    result.async = true;
+    return result;
+  });
 
   /*
   // Simple JavaScript Templating
