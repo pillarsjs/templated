@@ -70,7 +70,8 @@ function load(path,reload,callback){
   });
 }
 
-function addEngine(ext,compiler){
+function addEngine(ext,compiler,async){
+  if(async){compiler.async=true;}
   engines[ext]=compiler;
 }
 
@@ -195,6 +196,19 @@ render.loadDefaultEngines = function(){
   templated.addEngine('njk',function compiler(source,path){
     return nunjucks.compile(source);
   });
+
+  var less = require('less');
+  templated.addEngine('less',function(source,path){
+    return function(locals,callback){
+      less.render(source,{
+        //paths: ['.', './lib'],  // Specify search paths for @import directives
+        filename: path,
+        compress: true
+      },function (e, output) {
+        callback(undefined,output.css);
+      });
+    };
+  },true);
 
   /*
   // Simple JavaScript Templating
