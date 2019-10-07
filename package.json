@@ -37,7 +37,7 @@
     "textualization": "*",
     "marked": "*",
     "highlight.js": "*",
-    "pug": "2.0.0-beta6",
+    "pug": "2.0.4",
     "handlebars": "*",
     "hogan.js": "*",
     "nunjucks": "*",
